@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оплата Тура</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background-color: #f7f8fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container */
+        .payment-container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+
+        /* Header Styling */
+        .payment-header {
+            margin-bottom: 20px;
+        }
+
+        .payment-header img {
+            width: 70%; /* Adjusted size to make the QR code larger but contained */
+            max-width: 250px; /* Set a maximum width to avoid oversizing */
+            margin-bottom: 10px;
+        }
+
+        .payment-header h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .payment-header p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Stylish Download Button */
+        .download-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        .download-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Payment Details */
+        .payment-details {
+            margin: 20px 0;
+        }
+
+        .payment-details h4 {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* Form Styling */
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .payment-form input[type="file"] {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .payment-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .payment-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <div class="payment-header">
+            <img src="{{ payment_method.qr.url }}" alt="QR Code">
+
+            <!-- Beautiful Download Button -->
+            <a href="{{ payment_method.qr.url }}" download="QR_Code_Payment" class="download-button">
+                Скачать QR
+            </a>
+
+            <h2>{{ payment_method.title }}</h2>
+            <p>Отсканируйте QR-код для оплаты через банковское приложение</p>
+        </div>
+        <div class="payment-details">
+            <h4>Сумма оплаты: {{ tour.price }} сом </h4>
+            <h4>Оплата за смартфон: {{ tour.name }}</h4>
+        </div>
+        <form method="post" action="." enctype="multipart/form-data" class="payment-form">
+            {% csrf_token %}
+            <input type="file" name="check" required>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>

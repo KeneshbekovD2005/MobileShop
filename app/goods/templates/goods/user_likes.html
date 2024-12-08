@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои лайки</title>
+</head>
+<body>
+    <h1>Мои лайки</h1>
+    {% if favorites %}
+        <ul>
+            {% for favorite in favorites %}
+                <li>
+                    <a href="{% url 'product' favorite.tour.slug %}">
+                        {{ favorite.tour.name }}
+                    </a>
+                    <span>Лайк добавлен: {{ favorite.created_date|date:"d.m.Y H:i" }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет лайков.</p>
+    {% endif %}
+    <a href="{% url 'index' %}">Вернуться на главную</a>
+</body>
+</html>

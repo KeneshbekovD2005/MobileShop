@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <title>Mobile Shop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="{% static 'assets/img/apple-icon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.min.css' %}">
+    <!-- Подключение Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Подключение Font Awesome для иконок -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        #main-navbar.fixed-top {
+        position: fixed;
+        width: 100%;
+        z-index: 1000; /* Чтобы навбар всегда был сверху */
+    }
+
+    #main-navbar.fixed-top::after {
+        content: "";
+        display: block;
+        height: 56px; /* Эта высота должна быть равна высоте вашего навбара */
+    }
+
+              /* Плавное изменение для навбара */
+        #main-navbar {
+            transition: all 0.3s ease-in-out; /* Плавное изменение всех стилей (например, позиционирование, тень и фон) */
+        }
+
+        /* Стили для фиксированного навбара */
+        .fixed-top {
+            position: fixed; /* Фиксирует элемент относительно окна */
+            top: 0; /* Прикрепляет его к верхней части окна */
+            left: 0; /* По умолчанию левый край также фиксирован */
+            width: 100%; /* Навбар растягивается на всю ширину окна */
+            z-index: 1000; /* Устанавливает навбар поверх других элементов */
+        }
+
+        /* Добавляем белый фон и тень, когда навбар фиксирован */
+        .fixed-top.bg-white {
+            background-color: white;
+        }
+
+        .fixed-top.shadow {
+            box-shadow: 0 4px 2px -2px gray; /* Легкая тень для выделения */
+        }
+
+             .modal-content {
+            border-radius: 10px;
+            border: none;
+            background-color: #f9f9f9;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #007bff;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* Кнопки Sign In и Sign Up */
+        .btn-signin,
+        .btn-signup {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-signin {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+
+        .btn-signin:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: white;
+        }
+
+        .btn-signup {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            color: white;
+        }
+        .modal-dialog {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            font-family: Arial, sans-serif;
+        }
+
+        .modal-header {
+            background-color: #28a745;
+            color: white;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-header h5 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .btn-close {
+            background-color: transparent;
+            border: none;
+            font-size: 18px;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        form .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        form input:focus {
+            border-color: #28a745;
+            outline: none;
+            box-shadow: 0 0 6px rgba(40, 167, 69, 0.5);
+        }
+
+        form .btn {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px 0;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        form .btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .modal-body ul {
+            margin: 10px 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .modal-body ul li {
+            margin-bottom: 7px;
+        }
+
+        .modal-body p {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-dialog {
+                max-width: 90%;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
+
+            .modal-header {
+                padding: 15px;
+            }
+        }
+
+            /* Стиль для ссылок */
+            #main-navbar .nav-item .nav-link {
+                color: black;
+                font-weight: 600;
+                transition: color 0.3s ease; /* Плавное изменение цвета */
+            }
+
+            /* Эффект при наведении на элементы меню */
+            #main-navbar .nav-item .nav-link:hover {
+                color: #00bd29; /* Цвет золота при наведении */
+
+            }
+
+
+       </style>
+</head>
+
+<body>
+
+<div class="spacer"></div>
+<!-- Верхний навбар -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark d-none d-lg-block" id="templatemo_nav_top">
+    <div class="container text-light">
+        <div class="w-100 d-flex justify-content-between">
+            <div>
+                <i class="fa fa-envelope mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="#">danielkeneshbekov1997@gmail.com</a>
+                <i class="fa fa-phone mx-2"></i>
+                <a class="navbar-sm-brand text-light text-decoration-none" href="#">703-021-105</a>
+            </div>
+            <div>
+                <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Основной навбар -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="main-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand text-success logo h1 align-self-center" href="{% url 'main:main_index' %}">MobileShop</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
+            <div class="flex-fill">
+                <ul class="nav navbar-nav d-flex justify-content-end mx-lg-auto"> <!-- Заменили justify-content-flex-around на justify-content-end -->
+                    <li class="nav-item"><a class="nav-link" href="{% url 'main:main_index' %}">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'goods:categories_index' 'all' %}">Категории</a></li>
+                    {% if request.user.status == 2 or request.user.is_admin %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">CRM</a></li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+    {% if request.user.status != 2 %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'payment_system:applications' %}">Мои заявки</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'goods:user_likes' %}">Мои лайки</a></li>
+    {% endif %}
+{% endif %}
+
+
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <!-- Иконка поиска -->
+                <form action="{% url 'goods:search' %}" method="get" class="d-flex align-items-center nav-icon" style="gap: 5px; margin:0;margin-right: 15px;margin-left: 15px">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control form-control-sm"
+                        placeholder="Поиск товаров..."
+                        aria-label="Поиск товаров"
+                        style="width: 200px; height: 30px; padding: 2px 10px;"
+                    >
+                    <button type="submit" class="btn btn-sm btn-outline-dark" style="height: 30px; padding: 0 10px;">
+                        <i class="fa fa-fw fa-search"></i>
+                    </button>
+                </form>
+                <!-- Иконка корзины -->
+                <!-- Кнопки Sign In / Sign Up -->
+                <div class="nav-item">
+                    {% if request.user.is_authenticated %}
+                      <select class="form-select" aria-label="Default select example" onchange="if (this.value) window.location.href=this.value;">
+                          <option selected disabled>{{ request.user.full_name }}</option>
+                          <option value="{% url 'user:logout' %}">Выйти</option>
+                      </select>
+                    {% else %}
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#signInModal">Login</button>
+                        <span class="sign-in">/</span>
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Модальное окно Sign In -->
+<div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content shadow-lg border-0 rounded">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="signInModalLabel">Вход</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'user:login' %}" >
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Электронная почта</label>
+                        <input type="email" class="form-control" id = "email" name="email" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пороль</label>
+                        <input type="password" class="form-control" id = "password" name="password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Войти</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Модальное окно Sign Up -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content shadow-lg border-0 rounded-4">
+            <div class="modal-header bg-success text-white rounded-top">
+                <h5 class="modal-title" id="signUpModalLabel">Зарегистрироватся</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'user:register' %}" >
+
+                        {% csrf_token %}
+                        {{ register_form.as_p }}
+
+                    <button type="submit" class="btn btn-success w-100 rounded-pill">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+ {% block content %}
+
+ {% endblock %}
+
+
+    <!-- Start Footer -->
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">MobileShop</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            Codify kurs
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-020-0340">0703-021-105</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:info@company.com">danielkenesjbekov1997@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Страницы</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="{% url 'main:main_index' %}">Главная</a></li>
+                        <li><a class="text-decoration-none" href="{% url 'goods:categories_index' 'all' %}">Категории</a></li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">
+                            Copyright &copy; 2024 Keneshbekov Daniel
+                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- End Footer -->
+
+
+
+  <!-- Start Script -->
+    <script src="{% static '.assets/js/jquery-1.11.0.min.js' %}"></script>
+    <script src="{% static '.assets/js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script src="{% static '.assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static '.assets/js/templatemo.js' %}"></script>
+    <script src="{% static '.assets/js/custom.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Подключаем Popper.js и Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-VoPF78myqMIz07iQhP1tU6xyyfKHj03kXv31Z8UJrj3E3dtl1H3DPZpdq3Z07Xj4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-VoPF78myqMIz07iQhP1tU6xyyfKHj03kXv31Z8UJrj3E3dtl1H3DPZpdq3Z07Xj4" crossorigin="anonymous"></script>
+    <script>
+            window.addEventListener('scroll', function () {
+                const navbar = document.getElementById('main-navbar');
+                const spacer = document.querySelector('.spacer');
+
+                if (spacer) { // Убедимся, что .spacer существует
+                    const spacerHeight = spacer.offsetHeight; // Получаем высоту spacer
+                    if (window.scrollY > spacerHeight) { // Если прокручено больше высоты .spacer
+                        navbar.classList.add('fixed-top', 'bg-white', 'shadow'); // Добавляем классы для фиксирования
+                    } else {
+                        navbar.classList.remove('fixed-top', 'bg-white', 'shadow'); // Убираем фиксированный стиль, если прокрутка меньше
+                    }
+                }
+            });
+    </script>
+
+
+</body>
+</html>

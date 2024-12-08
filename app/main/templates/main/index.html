@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+     <style>
+         /* Стили для скролл */
+          /* Контейнер для карточек */
+        .scroll-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: hidden; /* Скрыть лишние элементы */
+            padding: 1rem 0;
+            scroll-behavior: smooth; /* Плавный скролл */
+            width: 900px; /* Точно под три карточки */
+            margin: 0 auto; /* Центровка на странице */
+        }
+
+        .scroll-container .card {
+            flex: 0 0 300px; /* Каждая карточка занимает фиксированную ширину */
+            text-align: center;
+        }
+
+        /* Кнопки скролла */
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-btn.left {
+            left: -10px;
+        }
+
+        .scroll-btn.right {
+            right: -10px;
+        }
+
+        .scroll-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Стили для скроллбара */
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /*Стили кнопки*/
+         .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+       .rating-star {
+            text-decoration: none;
+            font-size: 1000px;
+            margin-right: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .rating-star:hover {
+            color: darkorange;
+        }
+
+        /* Контейнер для сообщений */
+            .alert-container {
+                position: fixed;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1000;
+                width: 80%;
+                max-width: 500px;
+                pointer-events: none;  /* Чтобы сообщения не блокировали другие элементы */
+            }
+
+            /* Стили для самих сообщений */
+            .alert {
+                opacity: 1;
+                animation: fadeInOut 5s ease-in-out forwards;
+                margin-bottom: 10px;
+                border-radius: 10px;
+                font-size: 16px;
+                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+            }
+
+            /* Анимация появления и исчезновения */
+            @keyframes fadeInOut {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                10% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                80% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+            }
+
+            /* Цвета для разных типов сообщений */
+            .alert-success {
+                background-color: #28a745;
+                color: white;
+            }
+
+            .alert-error {
+                background-color: #dc3545;
+                color: white;
+            }
+
+            .alert-info {
+                background-color: #17a2b8;
+                color: white;
+            }
+
+            .alert-warning {
+                background-color: #ffc107;
+                color: black;
+            }
+
+            /* Кнопка закрытия */
+            .btn-close {
+                background-color: transparent;
+                border: none;
+                opacity: 0.7;
+            }
+
+            .btn-close:hover {
+                opacity: 1;
+            }
+
+
+
+     </style>
+
+
+    <!-- Start Banner Hero -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row p-5">
+                         {% if messages %}
+                            <div class="alert-container">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="{% static './assets/img/16plus.webp' %}" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-success"><b>Mobile</b> Shop</h1>
+                                <h3 class="h2">Ваш идеальный магазин смартфонов</h3>
+                                <p>
+                                    Mobile Shop-это современный и стильный интернет-магазин телефонов. У нас вы найдете новейшие модели, качественные аксессуары и выгодные предложения. Создано на базе передовых технологий для вашего удобства.
+                                </p><br>
+                                <h5>Доставка по всей стране. Гарантия качества. Лучшие цены.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="{% static './assets/img/iphone-15.webp' %}" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 style="color: #f0658e" class="h1">Широкий выбор смартфонов</h1>
+                                <h3 class="h2">Идеальное сочетание качества и стиля</h3>
+                                <p>
+                                   Вы можете приобрести смартфоны и аксессуары в нашем магазине для личного или коммерческого использования. Наша продукция соответствует высоким стандартам качества и доступна по выгодным ценам.
+                                </p><br>
+                                <h5>Покупайте с уверенностью. Ваш комфорт — наш приоритет.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="{% static './assets/img/iphone-14-pro.webp' %}" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 style="color:#c23aab" class="h1">Удобство и надежность</h1>
+                                <h3 class="h2">Ваш выбор — наша забота </h3>
+                                <p>
+                                    Мы предлагаем вам качественные и стильные решения для вашего смартфона. Покупайте только лучшее, наслаждайтесь легкостью выбора и доверьтесь надежности нашего магазина.
+                                </p>
+                                <h5>Поделитесь с друзьями и вернитесь за новыми покупками!</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    <!-- End Banner Hero -->
+
+
+    <!-- Start Categories of The Month -->
+<section class="container py-5">
+    <div class="row text-center pt-3">
+        <div class="col-lg-6 m-auto">
+            <h1 class="h1 text-success"><b>Категории месяца</b></h1>
+            <p>
+                Ознакомьтесь с популярными категориями этого месяца.<br>
+                Мы выбрали для вас лучшие предложения!
+            </p>
+        </div>
+    </div>
+    <div class="position-relative">
+        <!-- Кнопка влево -->
+        <button class="scroll-btn left" onclick="scrollManually(-1)">&#8249;</button>
+
+        <!-- Контейнер с карточками -->
+        <div class="scroll-container">
+            {% for category in categories %}
+                <div class="card">
+                    {% if category.image %}
+                        <a href="{% url 'categories:categories_index' category_slug=category.slug %}"><img src="{{  category.image.url }}" class="rounded-circle img-fluid border"></a>
+                    {% else %}
+                        <img src="path/to/default/image.jpg" class="card-img-top" alt="No image available">
+                    {% endif %}
+                    <h5 class="text-center mt-3 mb-3">{{ category.name }}</h5>
+                    <p class="text-center"><a href="{% url 'goods:categories_index' category_slug=category.slug  %}" class="btn btn-success">Выбрать категорию</a></p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Кнопка вправо -->
+        <button class="scroll-btn right" onclick="scrollManually(1)">&#8250;</button>
+    </div>
+</section>
+
+    <!-- Start Featured Product -->
+    <section class="bg-light">
+        <div class="container py-5">
+            <div class="row text-center py-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1 text-success"><b>Хиты продаж</b></h1>
+                    <p style="font-weight:bold">
+                        В этом разделе представлены товары, которые завоевали любовь наших клиентов. Попробуйте их и убедитесь сами в их качестве и функциональности.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="row">
+            {% for product in goods|slice:":15" %}
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card h-100">
+                        <a href="{% url "goods:product" product.slug %}">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="path/to/default/image.jpg" class="card-img-top" alt="No image available">
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <!-- Рейтинг со звёздами -->
+                            <div class="rating mb-3">
+                                <a href="#" class="rating-star">★</a>
+                                <a href="#" class="rating-star">★</a>
+                                <a href="#" class="rating-star">★</a>
+                                <a href="#" class="rating-star">★</a>
+                                <a href="#" class="rating-star">★</a>
+                            </div>
+                            <!-- Название продукта -->
+                            <a href="{% url "goods:product" product.slug %}" class="h2 text-decoration-none text-dark">{{ product.name }}</a>
+                            <p class="card-text">
+                                 {{ product.descriptions|slice:":60" }}...
+                            </p>
+                            <ul class="list-unstyled d-flex justify-content-between">
+                                <li class="text-bold text-muted text-right price">{{ product.price }} сом</li>
+                            </ul>
+                            <a href="{% url "goods:product" product.slug %}" class="btn btn-info btn-lg">Узнать подробно</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+    </section>
+    <!-- End Featured Product -->
+        <script>
+            const container = document.querySelector('.scroll-container');
+            const cardWidth = 300 + 16; // Ширина карточки + gap
+
+            // Функция для ручного скролла
+            function scrollManually(direction) {
+                container.scrollLeft += direction * cardWidth;
+            }
+
+            // Функция для автоматического скролла
+            function autoScroll() {
+                container.scrollLeft += cardWidth;
+
+                // Если прокрутка достигла конца, возвращаемся в начало
+                if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+                    container.scrollLeft = 0;
+                }
+            }
+
+            // Интервал для автоскролла
+            let autoScrollInterval = setInterval(autoScroll, 3000);
+
+            // Останавливаем автоскролл при взаимодействии пользователя
+            container.addEventListener('mouseover', () => clearInterval(autoScrollInterval));
+            container.addEventListener('mouseout', () => autoScrollInterval = setInterval(autoScroll, 3000));
+        </script>
+
+        <script>
+    // Автоматическое скрытие сообщений
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.classList.remove('show');
+                });
+            }, 5000);  // 5 секунд
+        </script>
+
+
+{% endblock %}
