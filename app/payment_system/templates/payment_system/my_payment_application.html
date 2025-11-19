@@ -1,74 +1,359 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <style>
-  .myappl{
+    /* Mobile-first responsive styles */
+    .myappl {
+        margin-top: 50px;
+        color: green;
+        margin-bottom: 10px;
+        font-size: 1.75rem;
+        text-align: center;
+    }
 
-  margin-top:100px;
-  color: green;
-  argin-bottom: 10px;
+    @media (min-width: 768px) {
+        .myappl {
+            margin-top: 100px;
+            font-size: 2.5rem;
+        }
+    }
 
-  }
-  .myapplh4{
-  margin-bottom:30px;
-  }
-  .status-button a {
-  font-size: 15px;
-  color: #00bdfe;
-  background-color: white;
-  border: 1px solid #00bdfe;
-  padding: 10px 30px;
-  display: inline-block;
-  border-radius: 10px;
-  font-weight: 500;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
-  transition: all .3s;
-}
-  .col-lg-4{
-  margin-bottom: 100px;
-  }
+    .myapplh4 {
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    @media (min-width: 768px) {
+        .myapplh4 {
+            font-size: 1.25rem;
+        }
+    }
+
+    .status-button a {
+        font-size: 14px;
+        color: #00bdfe;
+        background-color: white;
+        border: 1px solid #00bdfe;
+        padding: 8px 20px;
+        display: inline-block;
+        border-radius: 10px;
+        font-weight: 500;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        transition: all .3s;
+        width: 100%;
+        text-align: center;
+    }
+
+    @media (min-width: 576px) {
+        .status-button a {
+            font-size: 15px;
+            padding: 10px 30px;
+            width: auto;
+        }
+    }
+
+    .pricing-item {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+        .pricing-item {
+            margin-bottom: 50px;
+        }
+    }
+
+    .pricing-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .pricing-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    @media (min-width: 768px) {
+        .pricing-item img {
+            height: 250px;
+        }
+    }
+
+    .pricing-item h4 {
+        font-size: 1.25rem;
+        margin-bottom: 15px;
+        color: #333;
+        line-height: 1.4;
+        flex-grow: 1;
+    }
+
+    @media (min-width: 768px) {
+        .pricing-item h4 {
+            font-size: 1.5rem;
+        }
+    }
+
+    .pricing-item ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 15px 0;
+        text-align: left;
+    }
+
+    .pricing-item ul li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    @media (min-width: 768px) {
+        .pricing-item ul li {
+            font-size: 1rem;
+        }
+    }
+
+    .pricing-item ul li:last-child {
+        border-bottom: none;
+    }
+
+    .price {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28a745;
+        margin: 15px 0;
+    }
+
+    @media (min-width: 768px) {
+        .price {
+            font-size: 1.75rem;
+        }
+    }
+
+    /* Status colors */
+    .status-in_progress {
+        background-color: #fff3cd !important;
+        color: #856404 !important;
+        border-color: #ffeaa7 !important;
+    }
+
+    .status-denied {
+        background-color: #f8d7da !important;
+        color: #721c24 !important;
+        border-color: #f5c6cb !important;
+    }
+
+    .status-approved {
+        background-color: #d1edff !important;
+        color: #004085 !important;
+        border-color: #b8daff !important;
+    }
+
+    .status-completed {
+        background-color: #d4edda !important;
+        color: #155724 !important;
+        border-color: #c3e6cb !important;
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: #666;
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        color: #e9ecef;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state-text {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-subtext {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+    }
+
+    /* Grid layout */
+    .applications-grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 576px) {
+        .applications-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 992px) {
+        .applications-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    /* Section spacing */
+    .pricing-plans {
+        padding: 30px 0;
+    }
+
+    @media (min-width: 768px) {
+        .pricing-plans {
+            padding: 50px 0;
+        }
+    }
+
+    /* Touch improvements */
+    .pricing-item {
+        cursor: pointer;
+    }
 </style>
+
 {% if applications %}
-  <section class="pricing-plans">
+<section class="pricing-plans">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-         <div class="section-heading text-center">
-            <h1 class = "myappl">Мои заявки</h1>
-            <h4 class = "myapplh4">Мы рады, что вы выбрали нас!</em></h4>
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading text-center">
+                    <h1 class="myappl">{% trans "My Applications" %}</h1>
+                    <h4 class="myapplh4">
+                        {% trans "We're glad you chose us!" %}
+                    </h4>
+                </div>
+            </div>
         </div>
 
-        </div>
-        {% for application in applications %}
-          <div class="col-lg-4">
+        <div class="applications-grid">
+            {% for application in applications %}
             <div class="pricing-item">
-              <img src="{{ application.tour.cover.url }}" alt="">
-              <h4>{{ application.tour.title|truncatechars:30 }}</h4>
-              <ul>
-                <li>Способ оплаты: {{ application.payment_method }}</li>
-                <li>{{ application.created_date }}</li>
-              </ul>
-              <span class="price">{{application.tour.price}} сом</span>
-              <div class="status-button">
-                {% if application.status == 'in_progress' %}
-                  <a href="#" style="background-color: yellow;">{{ application.get_status_display }}</a>
-                {% elif application.status == 'denied' %}
-                  <a href="#" style="background-color: red;">{{ application.get_status_display }}</a>
-                {% else %}
-                  <a href="#" style="background-color: green;">{{ application.get_status_display }}</a>
-                {% endif %}
-              </div>
+
+                <h4>{{ application.tour.title|truncatechars:30 }}</h4>
+                <ul>
+                    <li>
+                        <strong>{% trans "Payment Method" %}:</strong>
+                        {{ application.payment_method }}
+                    </li>
+                    <li>
+                        <strong>{% trans "Created" %}:</strong>
+                        {{ application.created_date|date:"d.m.Y H:i" }}
+                    </li>
+                    {% if application.updated_date %}
+                    <li>
+                        <strong>{% trans "Updated" %}:</strong>
+                        {{ application.updated_date|date:"d.m.Y H:i" }}
+                    </li>
+                    {% endif %}
+                </ul>
+                <span class="price">{{ application.tour.price }} {% trans "som" %}</span>
+                <div class="status-button">
+                    {% if application.status == 'in_progress' %}
+                        <a href="#" class="status-in_progress">
+                            <i class="fas fa-clock"></i>
+                            {{ application.get_status_display }}
+                        </a>
+                    {% elif application.status == 'denied' %}
+                        <a href="#" class="status-denied">
+                            <i class="fas fa-times-circle"></i>
+                            {{ application.get_status_display }}
+                        </a>
+                    {% elif application.status == 'approved' %}
+                        <a href="#" class="status-approved">
+                            <i class="fas fa-check-circle"></i>
+                            {{ application.get_status_display }}
+                        </a>
+                    {% elif application.status == 'completed' %}
+                        <a href="#" class="status-completed">
+                            <i class="fas fa-check-double"></i>
+                            {{ application.get_status_display }}
+                        </a>
+                    {% else %}
+                        <a href="#" class="status-in_progress">
+                            <i class="fas fa-info-circle"></i>
+                            {{ application.get_status_display }}
+                        </a>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
+            {% endfor %}
+        </div>
     </div>
-  </section>
+</section>
 {% else %}
-  <br><br><br><br>
-  <h1 style="text-align: center;">Пусто.Жаль:(</h1>
+<section class="empty-state">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="empty-state-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h2 class="empty-state-text">{% trans "No Applications Yet" %}</h2>
+                <p class="empty-state-subtext">
+                    {% trans "You haven't submitted any applications yet. Start exploring our products and place your first order!" %}
+                </p>
+                <a href="{% url 'goods:categories_index' 'all' %}" class="btn btn-success btn-lg">
+                    <i class="fas fa-shopping-bag"></i>
+                    {% trans "Explore Products" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endif %}
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile touch improvements
+        const pricingItems = document.querySelectorAll('.pricing-item');
+        pricingItems.forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            item.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add click functionality to application cards
+        pricingItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Add your click functionality here
+                // For example: window.location.href = application detail URL
+                console.log('Application card clicked');
+            });
+        });
+
+        // Status badge animations
+        const statusBadges = document.querySelectorAll('.status-button a');
+        statusBadges.forEach(badge => {
+            badge.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            badge.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>
 {% endblock %}

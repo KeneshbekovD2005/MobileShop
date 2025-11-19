@@ -1,12 +1,272 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <style>
+    /* Mobile-first responsive styles */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        max-width: 1200px;
+        margin: 20px auto;
+        transition: transform 0.3s ease-in-out;
+    }
 
-       /* Контейнер сообщений */
+    @media (min-width: 768px) {
+        .product-card {
+            flex-direction: row;
+            margin: 50px auto;
+        }
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 20px 20px 0 0;
+    }
+    .similar-products{
+        text-align: center;
+        padding-bottom: 40px;
+    }
+
+    @media (min-width: 768px) {
+        .product-card img {
+            width: 45%;
+            height: 80%;
+            border-radius: 20px 0 0 20px;
+        }
+    }
+
+    .card-content {
+        padding: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .card-content {
+            padding: 30px;
+            width: 55%;
+        }
+    }
+
+    .card-content h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: #333;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .card-content h3 {
+            font-size: 40px;
+            text-align: left;
+        }
+    }
+
+    .card-content .price {
+        font-size: 24px;
+        color: #28a745;
+        margin: 10px 0;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .card-content .price {
+            font-size: 36px;
+            text-align: left;
+        }
+    }
+
+    .card-content .description {
+        font-size: 16px;
+        color: #555;
+        margin: 20px 0;
+        line-height: 1.6;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .card-content .description {
+            font-size: 20px;
+            text-align: left;
+        }
+    }
+
+    .card-content .rating {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #f4c150;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .card-content .rating {
+            font-size: 30px;
+            text-align: left;
+        }
+    }
+
+    .card-content .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    @media (min-width: 768px) {
+        .card-content .actions {
+            flex-direction: row;
+            align-items: center;
+            margin-top: 30px;
+        }
+    }
+
+    .card-content .btn {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 15px 25px;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .card-content .btn {
+            width: auto;
+            padding: 20px 35px;
+            font-size: 20px;
+            margin-right: 25px;
+        }
+    }
+
+    .card-content .btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Similar products responsive */
+    .product-card-similar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .product-card-similar .col-12 {
+        flex: 1 1 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    @media (min-width: 576px) {
+        .product-card-similar .col-12 {
+            flex: 1 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+        }
+    }
+
+    @media (min-width: 992px) {
+        .product-card-similar .col-12 {
+            flex: 1 1 calc(33.333% - 20px);
+            max-width: calc(33.333% - 20px);
+        }
+    }
+
+    /* Comments section responsive */
+    .comments-section {
+        margin: 30px auto;
+        max-width: 1200px;
+        padding: 0 15px;
+    }
+
+    @media (min-width: 768px) {
+        .comments-section {
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+    }
+
+    .comment-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    @media (min-width: 768px) {
+        .comment-card {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Modal responsive */
+    .modal-content {
+        width: 95%;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+
+    @media (min-width: 768px) {
+        .modal-content {
+            width: 90%;
+            max-width: 600px;
+        }
+    }
+
+    /* Star rating responsive */
+    .star-rating {
+        display: flex;
+        gap: 3px;
+        margin: 10px 0;
+        justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+        .star-rating {
+            gap: 5px;
+            justify-content: flex-start;
+        }
+    }
+
+    .star-rating label {
+        font-size: 24px;
+    }
+
+    @media (min-width: 768px) {
+        .star-rating label {
+            font-size: 30px;
+        }
+    }
+
+    /* Messages responsive */
     .messages {
         position: fixed;
         top: 50%;
@@ -16,22 +276,32 @@
         list-style: none;
         padding: 0;
         margin: 0;
-        width: 70%;  /* Уменьшена ширина */
-        max-width: 500px;  /* Максимальная ширина уменьшена */
-        text-align: center;  /* Текст по центру */
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
     }
 
-    /* Оформление сообщений */
     .messages li {
         display: block;
         background-color: #28a745;
         color: #fff;
-        padding: 15px;  /* Уменьшен отступ */
-        border-radius: 8px;  /* Уменьшен радиус скругления */
+        padding: 15px;
+        border-radius: 8px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        margin-bottom: 10px;  /* Уменьшен отступ между сообщениями */
-        font-size: 16px;  /* Уменьшен размер шрифта */
-        animation: fadeOut 5s ease forwards; /* Исчезновение через 5 секунд */
+        margin-bottom: 10px;
+        font-size: 16px;
+        animation: fadeOut 5s ease forwards;
+    }
+
+    @media (max-width: 480px) {
+        .messages {
+            width: 95%;
+        }
+
+        .messages li {
+            padding: 10px;
+            font-size: 14px;
+        }
     }
 
     .messages li.error {
@@ -47,43 +317,13 @@
         background-color: #17a2b8;
     }
 
-    /* Анимация исчезновения */
     @keyframes fadeOut {
-        0% {
-            opacity: 1;
-        }
-        80% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
+        0% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { opacity: 0; transform: translateY(-20px); }
     }
 
-    /* Стили кнопки */
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 50px;
-        background-color: #007bff;
-        color: white;
-        transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .btn:hover {
-        background-color: #0056b3;
-        transform: scale(1.1);
-    }
-
-    .btn:focus {
-        outline: none;
-    }
-
+    /* Keep other existing styles */
     .btn-info {
         background-color: #17a2b8;
     }
@@ -92,285 +332,130 @@
         background-color: #138496;
     }
 
-    .product-card {
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    .comment-form {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .comment-form h5 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .user-info {
         display: flex;
         align-items: center;
-        background-color: #fff;
-        border-radius: 20px;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        max-width: 1200px;
-        margin: 50px auto;
-        transition: transform 0.3s ease-in-out;
+        gap: 10px;
     }
 
-    .product-card:hover {
-        transform: translateY(-10px);
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #007bff, #6610f2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
     }
 
-    .product-card img {
-        width: 45%;
-        height: 80%;
-        object-fit: cover;
-        border-radius: 20px 0 0 20px;
-    }
-    .card-body{
-    text-align: center;
-    }
-    .card-content {
-        padding: 30px;
-        width: 55%;
+    .user-details {
         display: flex;
         flex-direction: column;
-        justify-content: center;
     }
 
-    .card-content h3 {
-        font-size: 40px;
-        margin-bottom: 20px;
+    .user-name {
+        font-weight: bold;
         color: #333;
-        font-weight: 600;
+        font-size: 16px;
     }
 
-    .card-content .price {
-        font-size: 36px;
-        color: #28a745;
-        margin: 15px 0;
-        font-weight: bold;
+    .comment-date {
+        font-size: 12px;
+        color: #888;
     }
 
-    .card-content .description {
-        font-size: 20px;
-        color: #555;
-        margin: 30px 0;
-        line-height: 1.6;
-        flex-grow: 1; /* Даем описание возможность расширяться */
-    }
-
-    .card-content .rating {
-        font-size: 30px;
-        margin-bottom: 30px;
-        color: #f4c150;
-    }
-
-    .card-content .rating a {
-        color: #f4c150;
-        text-decoration: none;
-        font-size: 30px;
-        margin-right: 5px;
-    }
-
-    .card-content .actions {
-        display: flex;
-        align-items: center;
-        margin-top: 30px;
-    }
-
-    .card-content .btn {
-        display: inline-block;
-        background-color: #007bff;
-        color: white;
-        padding: 20px 35px;
-        text-decoration: none;
-        border-radius: 10px;
-        font-size: 20px;
-        font-weight: 500;
-        transition: background-color 0.3s ease;
-        margin-right: 25px;
-    }
-
-    .card-content .btn:hover {
-        background-color: #0056b3;
-    }
-
-    .card-content .like {
-        font-size: 45px;
-        color: #dc3545;
-        cursor: pointer;
-        transition: transform 0.3s ease, color 0.3s ease;
-    }
-
-    .card-content .like:hover {
-        color: #ff5a5f;
-        transform: scale(1.3);
-    }
-
-    /* Похожие продукты */
-    .similar-products {
-        margin-top: 50px;
-        text-align: center;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .similar-products h3 {
-        font-size: 36px;
-        color: #28a745; /* Зеленый цвет */
-        font-weight: bold;
-        margin-bottom: 30px;
-    }
-
-    .similar-products p {
-        font-size: 18px;
+    .comment-text {
         color: #555;
         line-height: 1.6;
-        margin-bottom: 40px;
-    }
-
-    .product-card-similar {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between; /* Пространство между карточками */
-        margin: 0 auto;
-        max-width: 1200px; /* Ограничение ширины */
-    }
-
-    /* Стили для отдельных карточек */
-    .product-card-similar .col-12 {
-        flex: 1 1 calc(33.333% - 20px); /* 3 карточки на ряд */
-        max-width: calc(33.333% - 20px); /* Убираем лишнее пространство */
-        margin-bottom: 20px; /* Отступ снизу */
-    }
-
-
-    .product-card-similar .col-12 {
-        flex: 1 1 calc(33.333% - 20px); /* 3 карточки на ряд */
-        max-width: calc(33.333% - 20px); /* Ограничиваем максимальную ширину */
-        margin-bottom: 20px; /* Отступ снизу */
-    }
-
-
-    .product-card-similar .card {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-
-    .product-card-similar .card:hover {
-        transform: scale(1.05);
-    }
-
-    .product-card-similar .card-img-top {
-        object-fit: cover;
-        height: 200px;
-    }
-
-    .product-card-similar .card-body {
+        font-size: 14px;
+        background: #f8f9fa;
         padding: 15px;
+        border-radius: 8px;
+        border-left: 3px solid #28a745;
     }
 
-    .product-card-similar .price {
-        font-size: 20px;
-        color: #28a745;
-    }
-
-    .product-card-similar .btn {
+    .btn-primary {
         background-color: #007bff;
-        color: white;
-        font-size: 18px;
-        text-align: center;
-        display: inline-block;
-        padding: 10px 15px;
-        border-radius: 5px;
+        border: none;
+        padding: 10px 20px;
     }
 
-    .product-card-similar .btn:hover {
+    .btn-primary:hover {
         background-color: #0056b3;
     }
 
-    /* Увеличение карточки в конце */
-    .product-card-similar .col-12:last-child {
-        flex: 1 1 30%; /* Увеличиваем последнюю карточку */
-        transform: scale(1.1); /* Увеличиваем последнюю карточку */
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        padding: 5px 10px;
+        font-size: 12px;
     }
 
-    /* Добавление отступа снизу */
-    footer {
-        margin-top: 50px;
-        padding-top: 30px;
-        background-color: #f1f1f1;
-    }
-    .actions{
-     margin: 0px;
+    .btn-danger:hover {
+        background-color: #c82333;
     }
 
-    .card {
-  /* Add shadows to create the "card" effect */
-         box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-           transition: 0.3s;
-        }
-
-        /* On mouse-over, add a deeper shadow */
-        .card:hover {
-          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        }
-
-
-    @media (max-width: 768px) {
-    .product-card-similar .col-12 {
-        flex: 1 1 calc(50% - 20px); /* 2 карточки на ряд */
-    }
+    .rating-display {
+        font-size: 18px;
+        color: #666;
+        margin-top: 10px;
     }
 
-    /* Для очень маленьких экранов, одна карточка на ряд */
-    @media (max-width: 480px) {
-        .product-card-similar .col-12 {
-            flex: 1 1 100%; /* 1 карточка на ряд */
-        }
-        }
-
-            .modal {
-            display: none; /* Скрыто по умолчанию */
-            position: fixed;
-            z-index: 1000;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%); /* Центрируем окно */
-            width: 100%;  /* Ширина на 100% экрана */
-            height: 100%; /* Высота на 100% экрана */
-            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-        }
-
-        /* Стиль для контента модального окна */
-        .modal-content {
-            display:flex;
-            justify-content:center;
-            position: relative;
-            margin: auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            width: 90%;  /* Ограничиваем ширину на 90% от ширины экрана */
-            max-width: 600px;  /* Максимальная ширина */
-            overflow: auto;
-        }
-
-        /* Стиль для кнопки закрытия */
-        .close {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            padding: 0 10px;
-            cursor: pointer;
-        }
-
-        /* Изменение цвета крестика при наведении */
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    .modal-backdrop {
-    display: none !important;
+    .no-comments {
+        text-align: center;
+        color: #666;
+        padding: 40px;
+        font-style: italic;
     }
 
+    .char-count {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+    }
 
+    .char-count.warning {
+        color: #ffc107;
+    }
 
+    .char-count.danger {
+        color: #dc3545;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
 </style>
 
 {% if messages %}
@@ -381,55 +466,138 @@
     </ul>
 {% endif %}
 
+<!-- Основная карточка продукта -->
 <div class="product-card">
     <img src="{{ product.image.url }}" alt="{{ product.name }}">
     <div class="card-content">
         <h3>{{ product.name }}</h3>
-        <p class="description" style="padding:10px;margin:px">{{ product.descriptions }}</p>
+        <p class="description" style="padding:10px;margin:0">{{ product.descriptions }}</p>
 
-       <p class="rating" style="padding:10px;">
+        <!-- Рейтинг -->
+        <div class="rating" style="padding:10px;">
             <form method="post" action=".">
                 {% csrf_token %}
-                <input type="checkbox" value="1" name="rating" onclick="this.form.submit();">
-                <input type="checkbox" value="2" name="rating" onclick="this.form.submit();">
-                <input type="checkbox" value="3" name="rating" onclick="this.form.submit();">
-                <input type="checkbox" value="4" name="rating" onclick="this.form.submit();">
-                <input type="checkbox" value="5" name="rating" onclick="this.form.submit();">
+                <div class="star-rating">
+                    {% for i in "12345" %}
+                        <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}"
+                               {% if user_rating == i|add:0 %}checked{% endif %}
+                               onchange="this.form.submit()">
+                        <label for="star{{ i }}">★</label>
+                    {% endfor %}
+                </div>
             </form>
-
-            <h5>{{product_ratings}}</h5>
-        </p>
-
-         <p class="price" style="padding:10px;margin:px">{{ product.price }} сом</p>
-        <div class="actions">
-            <a href="#" id="myBtn" class="btn" data-toggle="modal" data-target="#myModal">Оформить заказ</a>
-       <div STYLE="padding-bottom:35px;" class="actions">
-            {% if request.user.is_authenticated %}
-                  {% if not user_like_check %}
-                    <a href="{% url 'goods:tour_like' request.user.id product.slug %}">
-                        <span class="wish-list"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                     </svg></span>
-                    </a>
-                {% else %}
-                    <a href="{% url 'goods:tour_like' request.user.id product.slug %}?delete=true">
-                       <span class="wish-list"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-                     </svg></span>
-                    </a>
-                {% endif %}
-           {% endif %}
+            <div class="rating-display">
+                <strong>{% trans "Rating" %}: {{ product_ratings|default:"0" }}/5</strong>
+                <br>
+                <small>{% trans "Based on" %} {{ rating_count }} {% trans "ratings" %}</small>
+            </div>
         </div>
 
+        <p class="price" style="padding:10px;margin:0">{{ product.price }} {% trans "som" %}</p>
+
+        <!-- Действия -->
+        <div class="actions">
+            <a href="#" id="myBtn" class="btn" data-toggle="modal" data-target="#myModal">
+                {% trans "Place Order" %}
+            </a>
+            <div style="padding-bottom:20px;" class="actions">
+                {% if request.user.is_authenticated %}
+                    {% if not user_like_check %}
+                        <a href="{% url 'goods:tour_like' request.user.id product.slug %}">
+                            <span class="wish-list">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                                </svg>
+                            </span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'goods:tour_like' request.user.id product.slug %}?delete=true">
+                            <span class="wish-list">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                            </span>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Секция комментариев -->
+<div class="comments-section">
+    <h3 style="text-align: center; margin-bottom: 30px; color: #333;">{% trans "Customer Reviews" %}</h3>
 
+    <!-- Форма добавления комментария -->
+    {% if request.user.is_authenticated %}
+    <div class="comment-form">
+        <h5>{% trans "Leave a Comment" %}</h5>
+        <form method="post" action="{% url 'goods:add_comment' product.slug %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea name="text" class="form-control" rows="4"
+                          placeholder="{% trans 'Share your opinion about the product (minimum 10 characters, maximum 100)...' %}"
+                          style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; resize: vertical;"
+                          maxlength="100" minlength="10" id="comment-textarea"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> {% trans "Submit Comment" %}
+            </button>
+        </form>
+    </div>
+    {% else %}
+    <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+        <p>{% trans "To leave a comment, please" %} <a href="{% url 'user:login' %}" style="color: #007bff; font-weight: bold;">{% trans "login" %}</a>.</p>
+    </div>
+    {% endif %}
 
+    <!-- Список комментариев -->
+    <div class="comments-list">
+        {% for comment in comments %}
+        <div class="comment-card">
+            <div class="comment-header">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        {{ comment.display_name|first|upper }}
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name">
+                            {{ comment.display_name }}
+                        </div>
+                        <div class="comment-date">
+                            {{ comment.created_date|date:"d.m.Y H:i" }}
+                        </div>
+                    </div>
+                </div>
+                {% if comment.user == request.user or request.user.is_staff %}
+                <form method="post" action="{% url 'goods:delete_comment' comment.id %}" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('{% trans "Are you sure you want to delete this comment?" %}')"
+                            title="{% trans "Delete comment" %}">
+                        <i class="fas fa-trash"></i> {% trans "Delete" %}
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="comment-text">
+                {{ comment.text|linebreaks }}
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-comments">
+            <i class="fas fa-comments" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
+            <p>{% trans "No comments yet. Be the first to leave a review!" %}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Похожие продукты -->
 <div class="similar-products">
-    <h3>Похожие продукты</h3>
-    <p>Выбирайте из нашего большого ассортимента похожие модели.</p>
+    <h3>{% trans "Similar Products" %}</h3>
+    <p>{% trans "Choose from our wide range of similar models." %}</p>
     <div class="product-card-similar">
         {% for similar_product in similar_products|slice:":15" %}
             <div class="col-12">
@@ -438,16 +606,16 @@
                         {% if similar_product.image %}
                             <img src="{{ similar_product.image.url }}" class="card-img-top" alt="{{ similar_product.name }}">
                         {% else %}
-                            <img src="path/to/default/image.jpg" class="card-img-top" alt="No image available">
+                            <img src="{% static 'images/default-product.jpg' %}" class="card-img-top" alt="{% trans 'No image available' %}">
                         {% endif %}
                     </a>
                     <div class="card-body">
                         <a href="{% url 'goods:product' similar_product.slug %}" class="h2 text-decoration-none text-dark">{{ similar_product.name }}</a>
                         <p class="card-text">{{ similar_product.descriptions|slice:":60" }}...</p>
-                        <ul  class="list-unstyled">
-                            <li class="text-bold text-muted text-right price">{{ similar_product.price }} сом</li>
+                        <ul class="list-unstyled">
+                            <li class="text-bold text-muted text-right price">{{ similar_product.price }} {% trans "som" %}</li>
                         </ul>
-                        <a href="{% url 'goods:product' similar_product.slug %}" class="btn btn-info btn-lg">Узнать подробно</a>
+                        <a href="{% url 'goods:product' similar_product.slug %}" class="btn btn-info btn-lg">{% trans "Learn More" %}</a>
                     </div>
                 </div>
             </div>
@@ -455,75 +623,85 @@
     </div>
 </div>
 
-<!-- Модальное окно -->
+<!-- Модальное окно оплаты -->
 <div id="myModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <!-- Контент модального окна -->
-    {% for payment_method in payment_methods %}
-        <a href="{% url 'payment_system:payment_application' payment_method.id product.id %}">
-            <div class="card" style="width: 200px;">
-                <img src="{{ payment_method.logo.url }}" alt="Avatar" style="width:100%">
-                <div class="container">
-                    <h4><b>{{ payment_method.title }}</b></h4>
+    <h3 style="text-align: center; margin-bottom: 20px;">{% trans "Choose Payment Method" %}</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+        {% for payment_method in payment_methods %}
+            <a href="{% url 'payment_system:payment_application' payment_method.id product.id %}">
+                <div class="card" style="width: 150px; text-align: center;">
+                    <img src="{{ payment_method.logo.url }}" alt="{{ payment_method.title }}" style="width:100%; height: 80px; object-fit: contain;">
+                    <div class="container" style="padding: 10px;">
+                        <h4 style="font-size: 14px;"><b>{{ payment_method.title }}</b></h4>
+                    </div>
                 </div>
-            </div>
-        </a>
-    {% endfor %}
+            </a>
+        {% endfor %}
+    </div>
   </div>
 </div>
 
-
 <script>
-    // Получаем элементы
+    // Модальное окно
     var modal = document.getElementById("myModal");
     var btn = document.getElementById("myBtn");
     var span = document.getElementsByClassName("close")[0];
 
-    // Открытие модального окна при клике на кнопку
-    btn.onclick = function() {
-        modal.style.display = "block";
+    if (btn) {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            modal.style.display = "block";
+        }
     }
 
-    // Закрытие модального окна при клике на крестик
-    span.onclick = function() {
-        modal.style.display = "none";
+    if (span) {
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
     }
 
-    // Закрытие модального окна при клике вне его
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
-    window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-    // Получаем элементы
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementById("myBtn");
-        var span = document.getElementsByClassName("close")[0];
 
-        // Открытие модального окна при клике на кнопку
-        btn.onclick = function() {
-            modal.style.display = "block";
+    // Автоматическое скрытие сообщений
+    setTimeout(function() {
+        var messages = document.querySelector('.messages');
+        if (messages) {
+            messages.style.display = 'none';
         }
+    }, 5000);
 
-        // Закрытие модального окна при клике на крестик
-        span.onclick = function() {
-            modal.style.display = "none";
+    // Mobile improvements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Touch improvements for mobile
+        const buttons = document.querySelectorAll('.btn, .star-rating label');
+        buttons.forEach(button => {
+            button.style.cursor = 'pointer';
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Form validation improvements for mobile
+        const commentForm = document.querySelector('.comment-form form');
+        if (commentForm) {
+            commentForm.addEventListener('submit', function(e) {
+                const textarea = this.querySelector('textarea[name="text"]');
+                if (textarea && textarea.value.length < 10) {
+                    e.preventDefault();
+                    alert('{% trans "Comment must contain at least 10 characters" %}');
+                    textarea.focus();
+                }
+            });
         }
-
-        // Закрытие модального окна при клике вне его области
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-
-
+    });
 </script>
 {% endblock %}

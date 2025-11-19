@@ -1,26 +1,270 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мои лайки</title>
-</head>
-<body>
-    <h1>Мои лайки</h1>
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    /* Ваши существующие стили остаются без изменений */
+    .likes-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px 15px;
+    }
+
+    @media (min-width: 768px) {
+        .likes-container {
+            padding: 30px 20px;
+        }
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        color: #333;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .page-title {
+            font-size: 2.25rem;
+            text-align: left;
+        }
+    }
+
+    .likes-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+    }
+
+    .like-item {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-left: 4px solid #28a745;
+        transition: transform 0.2s ease;
+    }
+
+    @media (min-width: 768px) {
+        .like-item {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .like-item:hover {
+        transform: translateY(-2px);
+    }
+
+    .product-link {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #007bff;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    @media (min-width: 768px) {
+        .product-link {
+            font-size: 1.25rem;
+            display: inline;
+            margin-bottom: 0;
+        }
+    }
+
+    .product-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    .like-date {
+        font-size: 0.9rem;
+        color: #666;
+        display: block;
+    }
+
+    @media (min-width: 768px) {
+        .like-date {
+            display: inline;
+            margin-left: 15px;
+        }
+    }
+
+    .no-likes {
+        text-align: center;
+        padding: 40px 20px;
+        color: #666;
+    }
+
+    .no-likes-icon {
+        font-size: 3rem;
+        color: #ddd;
+        margin-bottom: 1rem;
+    }
+
+    .back-link {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    @media (min-width: 576px) {
+        .back-link {
+            width: auto;
+        }
+    }
+
+    .back-link:hover {
+        background-color: #218838;
+        color: white;
+        text-decoration: none;
+    }
+
+    .likes-count {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .likes-count {
+            text-align: left;
+            }
+    }
+
+    /* Empty state styling */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        color: #e9ecef;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state-text {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    /* Action buttons */
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 576px) {
+        .action-buttons {
+            flex-direction: row;
+            margin-top: 0;
+        }
+    }
+</style>
+
+<div class="likes-container">
+    <h1 class="page-title">{% trans "My Likes" %}</h1>
+    
     {% if favorites %}
-        <ul>
+        <div class="likes-count">
+            {% blocktrans count counter=favorites.count %}
+                You have {{ counter }} like
+            {% plural %}
+                You have {{ counter }} likes
+            {% endblocktrans %}
+        </div>
+        
+        <ul class="likes-list">
             {% for favorite in favorites %}
-                <li>
-                    <a href="{% url 'product' favorite.tour.slug %}">
-                        {{ favorite.tour.name }}
-                    </a>
-                    <span>Лайк добавлен: {{ favorite.created_date|date:"d.m.Y H:i" }}</span>
+                <li class="like-item">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="flex-grow-1">
+                            <!-- ИСПРАВЛЕНО: используем favorite.tour вместо favorite.product -->
+                            <a href="{% url 'goods:product' favorite.tour.slug %}" class="product-link">
+                                {{ favorite.tour.name }}
+                            </a>
+                            <span class="like-date">
+                                {% trans "Liked on" %} {{ favorite.created_date|date:"d.m.Y H:i" }}
+                            </span>
+                        </div>
+                        <div class="action-buttons mt-2 mt-md-0">
+                            <!-- ИСПРАВЛЕНО: используем favorite.tour вместо favorite.product -->
+                            <a href="{% url 'goods:product' favorite.tour.slug %}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-eye"></i> {% trans "View" %}
+                            </a>
+                            <form method="post" action="{% url 'goods:remove_like' favorite.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm" 
+                                        onclick="return confirm('{% trans "Are you sure you want to remove this like?" %}')">
+                                    <i class="fas fa-trash"></i> {% trans "Remove" %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>У вас пока нет лайков.</p>
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="far fa-heart"></i>
+            </div>
+            <h3 class="empty-state-title">{% trans "No Likes Yet" %}</h3>
+            <p class="empty-state-text">
+                {% trans "You haven't liked any products yet. Start exploring our catalog and add products to your favorites!" %}
+            </p>
+            <a href="{% url 'goods:categories_index' 'all' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-shopping-bag"></i> {% trans "Explore Products" %}
+            </a>
+        </div>
     {% endif %}
-    <a href="{% url 'index' %}">Вернуться на главную</a>
-</body>
-</html>
+
+    <div class="text-center text-md-start mt-4">
+        <a href="{% url 'main:main_index' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> {% trans "Back to Home" %}
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile touch improvements
+        const likeItems = document.querySelectorAll('.like-item');
+        likeItems.forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.99)';
+            });
+            item.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Smooth animations
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            button.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+    });
+</script>
+{% endblock %}
