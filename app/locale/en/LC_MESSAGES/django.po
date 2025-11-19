@@ -1,0 +1,275 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: MobileShop\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-20 01:00+0000\n"
+"PO-Revision-Date: 2024-11-20 01:00+0000\n"
+"Last-Translator: Daniel <danielkeneshbekov1997@gmail.com>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Навигация
+msgid "Home"
+msgstr "Home"
+
+msgid "Categories"
+msgstr "Categories"
+
+msgid "My Applications"
+msgstr "My Applications"
+
+msgid "My Likes"
+msgstr "My Likes"
+
+# Поиск
+msgid "Search products..."
+msgstr "Search products..."
+
+msgid "Search products"
+msgstr "Search products"
+
+# Авторизация
+msgid "Login"
+msgstr "Login"
+
+msgid "Sign Up"
+msgstr "Sign Up"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Enter your email"
+msgstr "Enter your email"
+
+msgid "Enter your password"
+msgstr "Enter your password"
+
+msgid "Sign In"
+msgstr "Sign In"
+
+msgid "Close"
+msgstr "Close"
+
+# Продукты
+msgid "Learn More"
+msgstr "Learn More"
+
+msgid "Place Order"
+msgstr "Place Order"
+
+msgid "Rating"
+msgstr "Rating"
+
+msgid "Based on"
+msgstr "Based on"
+
+msgid "ratings"
+msgstr "ratings"
+
+# Комментарии
+msgid "Customer Reviews"
+msgstr "Customer Reviews"
+
+msgid "Leave a Comment"
+msgstr "Leave a Comment"
+
+msgid "Submit Comment"
+msgstr "Submit Comment"
+
+msgid "To leave a comment, please"
+msgstr "To leave a comment, please"
+
+msgid "login"
+msgstr "login"
+
+msgid "Are you sure you want to delete this comment?"
+msgstr "Are you sure you want to delete this comment?"
+
+msgid "Delete comment"
+msgstr "Delete comment"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "No comments yet. Be the first to leave a review!"
+msgstr "No comments yet. Be the first to leave a review!"
+
+msgid "Share your opinion about the product (minimum 10 characters, maximum 100)..."
+msgstr "Share your opinion about the product (minimum 10 characters, maximum 100)..."
+
+# Похожие товары
+msgid "Similar Products"
+msgstr "Similar Products"
+
+msgid "Choose from our wide range of similar models."
+msgstr "Choose from our wide range of similar models."
+
+# Оплата
+msgid "Choose Payment Method"
+msgstr "Choose Payment Method"
+
+msgid "Download QR Code"
+msgstr "Download QR Code"
+
+msgid "Scan the QR code to pay through your banking app"
+msgstr "Scan the QR code to pay through your banking app"
+
+msgid "Payment Details"
+msgstr "Payment Details"
+
+msgid "Amount"
+msgstr "Amount"
+
+msgid "Product"
+msgstr "Product"
+
+msgid "Method"
+msgstr "Method"
+
+msgid "Submit Payment Proof"
+msgstr "Submit Payment Proof"
+
+msgid "Back to previous page"
+msgstr "Back to previous page"
+
+# Валюта
+msgid "som"
+msgstr "som"
+
+# Бренды
+msgid "Our Brands"
+msgstr "Our Brands"
+
+msgid "We are proud to partner with leading brands that have earned the trust of millions of customers worldwide. Our collection combines high quality, innovative technology and stylish design so you can choose the best."
+msgstr "We are proud to partner with leading brands that have earned the trust of millions of customers worldwide. Our collection combines high quality, innovative technology and stylish design so you can choose the best."
+
+# Главная страница
+msgid "Mobile Shop"
+msgstr "Mobile Shop"
+
+msgid "Your ideal smartphone store"
+msgstr "Your ideal smartphone store"
+
+msgid "Mobile Shop is a modern and stylish online phone store. Here you will find the latest models, quality accessories and profitable offers. Created on the basis of advanced technologies for your convenience."
+msgstr "Mobile Shop is a modern and stylish online phone store. Here you will find the latest models, quality accessories and profitable offers. Created on the basis of advanced technologies for your convenience."
+
+msgid "Delivery throughout the country. Quality guarantee. Best prices."
+msgstr "Delivery throughout the country. Quality guarantee. Best prices."
+
+msgid "Wide selection of smartphones"
+msgstr "Wide selection of smartphones"
+
+msgid "Perfect combination of quality and style"
+msgstr "Perfect combination of quality and style"
+
+msgid "You can purchase smartphones and accessories in our store for personal or commercial use. Our products meet high quality standards and are available at competitive prices."
+msgstr "You can purchase smartphones and accessories in our store for personal or commercial use. Our products meet high quality standards and are available at competitive prices."
+
+msgid "Shop with confidence. Your comfort is our priority."
+msgstr "Shop with confidence. Your comfort is our priority."
+
+msgid "Convenience and reliability"
+msgstr "Convenience and reliability"
+
+msgid "Your choice - our care"
+msgstr "Your choice - our care"
+
+msgid "We offer you quality and stylish solutions for your smartphone. Buy only the best, enjoy the ease of choice and trust the reliability of our store."
+msgstr "We offer you quality and stylish solutions for your smartphone. Buy only the best, enjoy the ease of choice and trust the reliability of our store."
+
+msgid "Share with friends and come back for new purchases!"
+msgstr "Share with friends and come back for new purchases!"
+
+msgid "Categories of the Month"
+msgstr "Categories of the Month"
+
+msgid "Check out the popular categories of this month."
+msgstr "Check out the popular categories of this month."
+
+msgid "We have selected the best offers for you!"
+msgstr "We have selected the best offers for you!"
+
+msgid "Choose Category"
+msgstr "Choose Category"
+
+msgid "Bestsellers"
+msgstr "Bestsellers"
+
+msgid "This section features products that have won the love of our customers. Try them and see for yourself their quality and functionality."
+msgstr "This section features products that have won the love of our customers. Try them and see for yourself their quality and functionality."
+
+# Заявки
+msgid "No Applications Yet"
+msgstr "No Applications Yet"
+
+msgid "You haven't submitted any applications yet. Start exploring our products and place your first order!"
+msgstr "You haven't submitted any applications yet. Start exploring our products and place your first order!"
+
+msgid "Explore Products"
+msgstr "Explore Products"
+
+msgid "Payment Method"
+msgstr "Payment Method"
+
+msgid "Created"
+msgstr "Created"
+
+msgid "Updated"
+msgstr "Updated"
+
+# Лайки
+msgid "You have %(counter)s like"
+msgid_plural "You have %(counter)s likes"
+msgstr[0] "You have %(counter)s like"
+msgstr[1] "You have %(counter)s likes"
+
+msgid "Liked on"
+msgstr "Liked on"
+
+msgid "View"
+msgstr "View"
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "Are you sure you want to remove this like?"
+msgstr "Are you sure you want to remove this like?"
+
+msgid "No Likes Yet"
+msgstr "No Likes Yet"
+
+msgid "You haven't liked any products yet. Start exploring our catalog and add products to your favorites!"
+msgstr "You haven't liked any products yet. Start exploring our catalog and add products to your favorites!"
+
+msgid "Back to Home"
+msgstr "Back to Home"
+
+# Сообщения
+msgid "No products found"
+msgstr "No products found"
+
+msgid "Try selecting a different category or check back later."
+msgstr "Try selecting a different category or check back later."
+
+msgid "No products available"
+msgstr "No products available"
+
+msgid "Check back later for new arrivals!"
+msgstr "Check back later for new arrivals!"
+
+msgid "No image available"
+msgstr "No image available"
+
+# Страницы
+msgid "Pages"
+msgstr "Pages"
