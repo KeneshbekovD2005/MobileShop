@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-p4!vak1*d)r^i^*i%rr=4yrv1bec1v3cgl(o4t2oqf(@p3utr)
 
 # Определяем, работает ли на PythonAnywhere
 DEBUG = False
-ALLOWED_HOSTS = ['yourusername.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['DanielNurK.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 # Если нужно временно включить DEBUG для отладки:
 # DEBUG = os.environ.get('DEBUG', 'False') == 'True'
